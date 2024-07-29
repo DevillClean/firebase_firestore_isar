@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "916509059632",
+    "firebase_url": "https://demoauth-259e9-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "demoauth-259e9",
+    "storage_bucket": "demoauth-259e9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:916509059632:android:c23f1134fd3e444b79dbf5",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHn0AHdm8RMYz5xZuaMU4wWwg8XsH2BrI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
