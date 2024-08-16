@@ -12,12 +12,12 @@ class MenuButton extends StatefulWidget {
 }
 
 class _MenuButtonState extends State<MenuButton> {
-  // final user = FirebaseAuth.instance.currentUser!;
+  final user = FirebaseAuth.instance.currentUser;
 
   void signOut() async {
     await FirebaseAuth.instance.signOut();
     // ignore: use_build_context_synchronously
-    context.go('/home');
+    
   }
 
   @override
@@ -35,19 +35,41 @@ class _MenuButtonState extends State<MenuButton> {
           ),
         ),
         const Text('BMI CALCULATOR'),
-        Expanded(
+        const Expanded(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               // Text('${user.email}'),
-              IconButton(
-                onPressed: signOut,
-                icon: const Icon(Icons.logout),
-              ),
+              SignOutButton(),
             ],
           ),
         ),
       ],
+    );
+  }
+}
+
+class SignOutButton extends StatelessWidget {
+  const SignOutButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () async {
+        try {
+          await FirebaseAuth.instance.signOut();
+          if (context.mounted) {
+            GoRouter.of(context).goNamed('home');
+          }
+        } catch (e) {
+          if (context.mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Ошибка выхода: $e')),
+            );
+          }
+        }
+      },
+      child: const Text('Выйти'),
     );
   }
 }

@@ -4,9 +4,9 @@ abstract class BmiEvent {}
 
 
 class Initialize extends BmiEvent {
-
   Initialize();
 }
+
 class OnGenderChange extends BmiEvent {
   final Gender gender;
   OnGenderChange({required this.gender});
@@ -28,3 +28,5 @@ class OnAgeChange extends BmiEvent {
 }
 
 class OnCalculateBmi extends BmiEvent {}
+
+class OnResetData extends BmiEvent {}

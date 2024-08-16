@@ -9,4 +9,8 @@ class LoginRepository{
       password: password
     );
   }
+
+  Future<void> signOut() async {
+    await auth.signOut();
+  }
 }

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_2/data/model/localdb_model.dart';
 import 'package:flutter_application_2/presentation/screens/auth_screen/login_bloc/login_bloc.dart';
 import 'package:flutter_application_2/presentation/screens/auth_screen/widgets/custom_button.dart';
 import 'package:flutter_application_2/presentation/screens/auth_screen/widgets/custom_text_field.dart';
 import 'package:flutter_application_2/theme/styles.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:isar/isar.dart';
+import 'package:path_provider/path_provider.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -14,9 +17,9 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
+  Isar? isar;
   final loginController = TextEditingController();
   final passwordController = TextEditingController();
-
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +86,20 @@ class _AuthScreenState extends State<AuthScreen> {
                 ),
                 const SizedBox(height: 20),
                 MyButton(
-                  onTap: () {},
+                  onTap: () async {
+                    try {
+                      final directory =
+                          await getApplicationDocumentsDirectory();
+                      isar = await Isar.open([DbModelSchema],
+                          directory: directory.path);
+                      await writeToDb(isar!);
+                       // ignore: use_build_context_synchronously
+                       Navigator.pushNamed(context, 'home');
+                    } catch (e) {
+                      // ignore: avoid_print
+                      print('Ошибка: $e');
+                    }
+                  },
                   name: 'Login as guest',
                 ),
               ],
@@ -92,5 +108,17 @@ class _AuthScreenState extends State<AuthScreen> {
         ],
       ),
     );
+  }
+
+  Future<void> writeToDb(Isar isar) async {
+    final dbModel = DbModel(
+      age: 10,
+      height: 40,
+      weight: 50,
+      totalBmi: 0,
+    );
+    await isar.writeTxn(() async {
+      await isar.dbModels.put(dbModel);
+    });
   }
 }

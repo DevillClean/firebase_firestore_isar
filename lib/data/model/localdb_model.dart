@@ -10,5 +10,5 @@ class DbModel {
   late int age;
   late int totalBmi;
 
-  DbModel(this.age, this.height, this.weight, this.totalBmi);
+  DbModel({required this.age, required this.height, required this.weight, required this.totalBmi});
 }

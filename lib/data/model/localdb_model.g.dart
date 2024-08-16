@@ -15,7 +15,7 @@ extension GetDbModelCollection on Isar {
 
 const DbModelSchema = CollectionSchema(
   name: r'DbModel',
-  id: 2403904112317172224,
+  id: 2403904112317172252,
   properties: {
     r'age': PropertySchema(
       id: 0,
@@ -80,11 +80,12 @@ DbModel _dbModelDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = DbModel(
-    reader.readLong(offsets[0]),
-    reader.readLong(offsets[1]),
-    id,
-    reader.readLong(offsets[3]),
+    age: reader.readLong(offsets[0]),
+    height: reader.readLong(offsets[1]),
+    totalBmi: reader.readLong(offsets[2]),
+    weight: reader.readLong(offsets[3]),
   );
+  object.id = id;
   return object;
 }
 

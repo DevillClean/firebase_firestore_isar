@@ -19,6 +19,7 @@ class BmiCalculatorApp extends StatefulWidget {
 class BmiCalculatorAppState extends State<BmiCalculatorApp> {
   @override
   Widget build(BuildContext context) {
+    
     return BlocBuilder<BmiBloc, BmiState>(
       builder: (context, state) {
         return Scaffold(
@@ -47,8 +48,8 @@ class BmiCalculatorAppState extends State<BmiCalculatorApp> {
                           setState(
                             () {
                               context
-                                  .read<BmiBloc>()
-                                  .add(OnGenderChange(gender: Gender.male));
+                              .read<BmiBloc>()
+                              .add(OnGenderChange(gender: Gender.male));
                             },
                           );
                         },
@@ -141,7 +142,7 @@ class BmiCalculatorAppState extends State<BmiCalculatorApp> {
                             Container(
                               padding: const EdgeInsets.all(8),
                               width: 160,
-                              height: 80,
+                              height: 60,
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -183,7 +184,7 @@ class BmiCalculatorAppState extends State<BmiCalculatorApp> {
                             Container(
                               padding: const EdgeInsets.all(8),
                               width: 160,
-                              height: 80,
+                              height: 60,
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,

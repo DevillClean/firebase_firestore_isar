@@ -1,17 +1,19 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_application_2/data/model/localdb_model.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 
-class LocalDbProvider extends ChangeNotifier {
-  Isar? isar;
+class LocalDbProvider {
+  static late Isar? isar;
   List<DbModel> dbList = [];
 
-  Future<void> initIsar() async {
-    var dir = await getApplicationDocumentsDirectory();
+  static Future<void> initIsar() async {
+    final dir = await getApplicationDocumentsDirectory();
     isar = await Isar.open([DbModelSchema],
-        directory: dir.path, name: 'Local Isar Database');
+        directory: dir.path, 
+        name: 'Local Isar Database'
+    );
   }
+
 
   Future<void> writeToDb(DbModel model) async {
     try {
@@ -19,25 +21,25 @@ class LocalDbProvider extends ChangeNotifier {
         await isar!.writeTxn(() async {
           await isar!.dbModels.put(model);
         });
-        readFromDb();
+        await readFromDb();
       }
     } catch (e) {
       // ignore: avoid_print
-      print(e);
+      print("Error writing to database $e");
     }
   }
 
-  readFromDb() async {
-    var allListDatas = <DbModel>[];
+  Future <List<DbModel>> readFromDb() async {
     try {
-      if (isar != null) {
-        allListDatas = await isar!.dbModels.where().findAll();
-        dbList = allListDatas;
-        notifyListeners();
+        dbList = await isar!.dbModels.where().findAll(); 
+      if (dbList.isEmpty) {
+      // ignore: avoid_print
+        print("В базе данных нет записей.");
       }
     } catch (e) {
       // ignore: avoid_print
-      print(e);
+      print('Ошибка чтения из базы данных: $e');
     }
+    return dbList; 
   }
 }
